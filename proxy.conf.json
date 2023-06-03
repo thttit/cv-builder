@@ -1,0 +1,7 @@
+{
+    "/api/v2/*": {
+        "target": "https://nubela.co/proxycurl",
+        "secure": false,
+        "logLevel": "debug"
+    }
+}
