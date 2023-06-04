@@ -48,6 +48,9 @@ export class AppComponent {
                     }
                 });
             }
+            // else {
+            //     //Viết code ở đây
+            // }
 
             //this.getPfSv.getProfileLinkedIn1(this.linkProfileLinkedin);
         }else {
