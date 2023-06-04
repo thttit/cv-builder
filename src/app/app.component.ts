@@ -5,9 +5,9 @@ import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
 
 @Component({ //Decurator
-  selector: 'app-root', //Đồng nghĩa với document.querySelector('approot'); Angular chỉ cho xài element tag thôi
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+    selector: 'app-root', //Đồng nghĩa với document.querySelector('approot'); Angular chỉ cho xài element tag thôi
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.css']
 })
 //Từ "selector .... styleUrls": Metadata
 export class AppComponent {
@@ -51,7 +51,7 @@ export class AppComponent {
 
             //this.getPfSv.getProfileLinkedIn1(this.linkProfileLinkedin);
         }else {
-            alert("Vui lòng nhập link profile linkedin");
+            alert("Vui lòng nhập link profile");
         }
     }
 
