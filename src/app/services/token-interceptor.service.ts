@@ -10,7 +10,7 @@ export class TokenInterceptorService implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-      let token = '8mLE_kqUd4LGKg2wNaQSCA';
+      let token = '6pqRvBZy-o43M_ik4pCvGQ';
 
       let jwtToken = req.clone({
           setHeaders: {

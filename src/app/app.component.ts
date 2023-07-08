@@ -22,9 +22,7 @@ export class AppComponent {
     skills: any;
     experiences: any;
     educations: any;
-    constructor(private getPfSv: GetProfileService) {
-
-    }
+    constructor(private getPfSv: GetProfileService) {}
 
     @ViewChild('cvInfo', {static: false}) el!: ElementRef;
 
@@ -35,16 +33,16 @@ export class AppComponent {
             if(this.pageGetProfile == "linkedin") {
                 this.getPfSv.getProfileLinkedIn(await this.linkProfileLinkedin).subscribe(res => {
                     if(res) {
-                        alert("Build CV successfully");
-                        this.profileUserLinkedIn = res;
-                        this.profilePicUrl = this.profileUserLinkedIn.profile_pic_url;
-                        this.fullName = this.profileUserLinkedIn.full_name;
-                        this.studyAt = this.profileUserLinkedIn.occupation;
-                        this.city = this.profileUserLinkedIn.city;
-                        this.country = this.profileUserLinkedIn.country_full_name;
-                        this.experiences = this.profileUserLinkedIn.experiences;
-                        this.educations = this.profileUserLinkedIn.education;
-                        this.skills = this.profileUserLinkedIn.skills;
+                          alert("Build CV successfully");
+                          this.profileUserLinkedIn = res;
+                          this.profilePicUrl = this.profileUserLinkedIn.profile_pic_url;
+                          this.fullName = this.profileUserLinkedIn.full_name;
+                          this.studyAt = this.profileUserLinkedIn.occupation;
+                          this.city = this.profileUserLinkedIn.city;
+                          this.country = this.profileUserLinkedIn.country_full_name;
+                          this.experiences = this.profileUserLinkedIn.experiences;
+                          this.educations = this.profileUserLinkedIn.education;
+                          this.skills = this.profileUserLinkedIn.skills;
                     }
                 });
             }
@@ -72,6 +70,5 @@ export class AppComponent {
             alert("Không tim thấy dữ liệu")
         }
     }
-
 }
 
