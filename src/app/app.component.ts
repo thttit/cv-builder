@@ -52,21 +52,36 @@ export class AppComponent {
         var splitted = this.linkProfileLinkedin.split('/');
         var IdORCID = splitted[splitted.length - 1];
 
+        //test: https://orcid.org/0009-0007-1859-8716
         this.getPfSv.getProfileORCID(await IdORCID).subscribe(
           (res) => {
-            console.log(res.person.name);
-            // if (res) {
-            //   alert('Build CV successfully');
-            //   this.profileUserLinkedIn = res;
-            //   this.profilePicUrl = this.profileUserLinkedIn.profile_pic_url;
-            //   this.fullName = this.profileUserLinkedIn.person.given.name;
-            //   this.studyAt = this.profileUserLinkedIn.occupation;
-            //   this.city = this.profileUserLinkedIn.city;
-            //   this.country = this.profileUserLinkedIn.country_full_name;
-            //   this.experiences = this.profileUserLinkedIn.experiences;
-            //   this.educations = this.profileUserLinkedIn.education;
-            //   this.skills = this.profileUserLinkedIn.skills;
-            // }
+            // console.log(res);
+            // const employmentSummaries =
+            //   res['activities-summary'].educations['affiliation-group'][0]
+            //     .summaries[0]['education-summary'].organization.name;
+            // console.log(employmentSummaries);
+
+            if (res) {
+              alert('Build CV successfully');
+              this.profileUserLinkedIn = res;
+              this.fullName =
+                this.profileUserLinkedIn.person.name['family-name'].value +
+                this.profileUserLinkedIn.person.name['given-names'].value;
+              //   this.studyAt = this.profileUserLinkedIn.occupation;
+              //   this.city = this.profileUserLinkedIn.city;
+              this.country =
+                this.profileUserLinkedIn.person.addresses.address[0].country.value;
+              this.experiences =
+                this.profileUserLinkedIn['activities-summary'].employments[
+                  'affiliation-group'
+                ][0].summaries[0]['employment-summary'].organization.name;
+              this.educations =
+                this.profileUserLinkedIn['activities-summary'].educations[
+                  'affiliation-group'
+                ][0].summaries[0]['education-summary'].organization.name;
+
+              console.log(this.educations);
+            }
           },
           (err) => {
             console.log('Error:', err);
