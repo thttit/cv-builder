@@ -23,6 +23,7 @@ export class AppComponent {
   skills: any;
   experiences: any;
   educations: any;
+  companies: any;
   constructor(private getPfSv: GetProfileService) {}
 
   @ViewChild('cvInfo', { static: false }) el!: ElementRef;
@@ -55,7 +56,7 @@ export class AppComponent {
         //test: https://orcid.org/0009-0007-1859-8716
         this.getPfSv.getProfileORCID(await IdORCID).subscribe(
           (res) => {
-            // console.log(res);
+            console.log(res);
             // const employmentSummaries =
             //   res['activities-summary'].educations['affiliation-group'][0]
             //     .summaries[0]['education-summary'].organization.name;
