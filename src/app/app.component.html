@@ -11,7 +11,7 @@
             <option value="ieee">IEEE</option>
         </select>
         <div class="link-cv">
-            <input type="text" class="link-cv-input" placeholder="Put your profile link here (Linkedin, Google Scholar, RG, ORCID, Crossref, IEEE)" [(ngModel)]= "linkProfileLinkedin" (change)="onChangeInputProfileLink()">
+            <input type="text" class="link-cv-input" placeholder="Put your profile link here (Linkedin, Google Scholar, RG, ORCID, Crossref, IEEE)" [(ngModel)]= "linkProfile" (change)="onChangeInputProfileLink()">
             <button class="build-cv-btn" (click)="buildCVPDF()">Build</button>
         </div>
         <button class="download-cv-pdf-btn" (click)="downloadCVPDF()">Download PDF</button>
@@ -27,10 +27,10 @@
         <div class="right">
             <div class="right-item">
                 <div class="title">Experience</div>
-                <div class="right-item-list experience-list" *ngFor="let experience of experiences">
+                <div class="right-item-list company-list" *ngFor="let experience of experiences">
                     <div class="experience-item">
-                        {{pageGetProfile === "Linkedin" ? experience.company : ''}} <br />
-                        {{pageGetProfile === "Linkedin" ? experience.title : ''}}
+                        {{experience.company ? experience.company : ''}} <br />
+                        {{experience.position ? experience.position : ''}}
                     </div>
                 </div>
             </div>
@@ -38,8 +38,8 @@
                 <div class="title">Education</div>
                 <div class="right-item-list experience-list" *ngFor="let education of educations">
                     <div class="experience-item">
-                        {{pageGetProfile === "Linkedin" ? education.school : ''}} <br />
-                        {{pageGetProfile === "Linkedin" ? education.field_of_study : ''}}
+                        {{education.school ? education.school : ''}} <br />
+                        {{education.fieldOfStudy ? education.fieldOfStudy : ''}}
                     </div>
                 </div>
             </div>
@@ -47,7 +47,7 @@
               <div class="title">Skills</div>
               <div class="right-item-list experience-list" *ngFor="let skill of skills">
                   <div class="experience-item">
-                      <li>{{skill}}</li>
+                      <li>{{skill.name}}</li>
                   </div>
               </div>
           </div>
