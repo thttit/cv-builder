@@ -3,6 +3,8 @@ import { OnInit } from '@angular/core';
 import { GetProfileService } from './services/get-profile.service';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
+import { AuthService } from './services/auth.service';
+import { environment } from "../environments/environment";
 
 @Component({
   //Decurator
@@ -20,10 +22,10 @@ export class AppComponent {
   studyAt: any;
   city: any;
   country: any;
-  skills: any;
-  experiences: any;
-  educations: any;
-  constructor(private getPfSv: GetProfileService) {}
+  skills: any[] = [];
+  experiences: any[] = [];
+  educations: any[] = [];
+  constructor(private getPfSv: GetProfileService, private authToken: AuthService) {}
 
   @ViewChild('cvInfo', { static: false }) el!: ElementRef;
 
@@ -32,6 +34,7 @@ export class AppComponent {
   async buildCVPDF() {
     if (this.linkProfile && this.pageGetProfile) {
       if (this.pageGetProfile == 'linkedin') {
+        this.authToken.accessToken = environment.linkedin_token;
         this.getPfSv
           .getProfileLinkedIn(await this.linkProfile)
           .subscribe((res) => {

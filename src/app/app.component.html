@@ -29,18 +29,20 @@
                 <div class="title">Experience</div>
                 <div class="right-item-list company-list" *ngFor="let experience of experiences">
                     <div class="experience-item">
-                        {{experience.company ? experience.company : ''}} <br />
-                        {{experience.position ? experience.position : ''}}
+                        <p class="company">{{experience.company ? experience.company : ''}}</p>
+                        <p class="position">{{experience.position ? experience.position : ''}}</p>
                     </div>
+                    <br />
                 </div>
             </div>
             <div class="right-item">
                 <div class="title">Education</div>
                 <div class="right-item-list experience-list" *ngFor="let education of educations">
                     <div class="experience-item">
-                        {{education.school ? education.school : ''}} <br />
-                        {{education.fieldOfStudy ? education.fieldOfStudy : ''}}
+                      <p class="school">{{education.school ? education.school : ''}}</p>
+                      <p class="fieldstudy">{{education.fieldOfStudy ? education.fieldOfStudy : ''}}</p>
                     </div>
+                    <br />
                 </div>
             </div>
             <div class="right-item">

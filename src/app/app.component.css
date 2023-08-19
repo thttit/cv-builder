@@ -89,4 +89,19 @@
     color: black !important;
 }
 
+.company {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.school {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+p {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
 
