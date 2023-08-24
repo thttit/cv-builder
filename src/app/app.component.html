@@ -13,6 +13,10 @@
         <div class="link-cv">
             <input type="text" class="link-cv-input" placeholder="Put your profile link here (Linkedin, Google Scholar, RG, ORCID, Crossref, IEEE)" [(ngModel)]= "linkProfile" (change)="onChangeInputProfileLink()">
             <button class="build-cv-btn" (click)="buildCVPDF()">Build</button>
+            <div *ngIf="isLoading" class="loading-container">
+              <div class="loading-spinner"></div>
+              <p class="loading-text">Getting data...</p>
+            </div>
         </div>
         <button class="download-cv-pdf-btn" (click)="downloadCVPDF()">Download PDF</button>
     </div>

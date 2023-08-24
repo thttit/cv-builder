@@ -14,6 +14,7 @@ import { environment } from "../environments/environment";
 })
 //Từ "selector .... styleUrls": Metadata
 export class AppComponent {
+  isLoading: boolean = false;
   pageGetProfile: any;
   profileUser: any;
   linkProfile: any;
@@ -34,11 +35,13 @@ export class AppComponent {
   async buildCVPDF() {
     if (this.linkProfile && this.pageGetProfile) {
       if (this.pageGetProfile == 'linkedin') {
+        this.isLoading = true;
         this.authToken.accessToken = environment.linkedin_token;
         this.getPfSv
           .getProfileLinkedIn(await this.linkProfile)
           .subscribe((res) => {
             if (res) {
+              this.isLoading = false;
               alert('Build CV successfully');
               this.profileUser = res;
               this.profilePicUrl = this.profileUser.profile_pic_url;
@@ -66,9 +69,13 @@ export class AppComponent {
                 }
                 this.skills.push(skill);
               }
+            }else {
+                this.isLoading = false;
+                alert("Error when getting data");
             }
           });
       } else if (this.pageGetProfile == 'orcid') {
+        this.isLoading = true;
         var splitted = this.linkProfile.split('/');
         var IdORCID = splitted[splitted.length - 1];
 
@@ -111,8 +118,6 @@ export class AppComponent {
       // else {
       //     //Viết code ở đây
       // }
-
-      //this.getPfSv.getProfileLinkedIn1(this.linkProfile);
     } else {
       alert('Vui lòng nhập link profile');
     }
