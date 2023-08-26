@@ -38,42 +38,43 @@ export class AppComponent {
         this.isLoading = true;
         this.authToken.accessToken = environment.linkedin_token;
         this.getPfSv
-          .getProfileLinkedIn(await this.linkProfile)
-          .subscribe((res) => {
-            if (res) {
-              this.isLoading = false;
-              alert('Build CV successfully');
-              this.profileUser = res;
-              this.profilePicUrl = this.profileUser.profile_pic_url;
-              this.fullName = this.profileUser.full_name;
-              this.studyAt = this.profileUser.occupation;
-              this.city = this.profileUser.city;
-              this.country = this.profileUser.country_full_name;
-              for(let i = 0; i < this.profileUser.experiences.length; i++) {
-                let experience = {
-                  company: this.profileUser.experiences[i].company,
-                  position: this.profileUser.experiences[i].title
-                }
-                this.experiences.push(experience);
+        .getProfileLinkedIn(await this.linkProfile)
+        .subscribe((res) => {
+          if (res) {
+            this.isLoading = false;
+            alert('Build CV successfully');
+            this.profileUser = res;
+            this.profilePicUrl = this.profileUser.profile_pic_url;
+            this.fullName = this.profileUser.full_name;
+            this.studyAt = this.profileUser.occupation;
+            this.city = this.profileUser.city;
+            this.country = this.profileUser.country_full_name;
+            for(let i = 0; i < this.profileUser.experiences.length; i++) {
+              let experience = {
+                company: this.profileUser.experiences[i].company,
+                position: this.profileUser.experiences[i].title
               }
-              for(let i = 0; i < this.profileUser.education.length; i++) {
-                let education = {
-                  school: this.profileUser.education[i].school,
-                  fieldOfStudy: this.profileUser.education[i].field_of_study
-                }
-                this.educations.push(education);
-              }
-              for(let i = 0; i < this.profileUser.skills.length; i++) {
-                let skill = {
-                  name: this.profileUser.skills[i]
-                }
-                this.skills.push(skill);
-              }
-            }else {
-                this.isLoading = false;
-                alert("Error when getting data");
+              this.experiences.push(experience);
             }
-          });
+            for(let i = 0; i < this.profileUser.education.length; i++) {
+              let education = {
+                school: this.profileUser.education[i].school,
+                fieldOfStudy: this.profileUser.education[i].field_of_study
+              }
+              this.educations.push(education);
+            }
+            for(let i = 0; i < this.profileUser.skills.length; i++) {
+              let skill = {
+                name: this.profileUser.skills[i]
+              }
+              this.skills.push(skill);
+            }
+          }
+        }, (error) => {
+          this.isLoading = false;
+            alert("Error when getting data");
+          }
+        );
       } else if (this.pageGetProfile == 'orcid') {
         this.isLoading = true;
         var splitted = this.linkProfile.split('/');
