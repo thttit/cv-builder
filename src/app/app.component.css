@@ -1,5 +1,6 @@
 .cv-builder {
   width: 100%;
+  height: auto;
 }
 .title {
     color: brown;
@@ -41,10 +42,11 @@
     display: flex;
 }
 .cv-info-pdf .left {
-    width: 30%;
+    width: 40%;
     background-color: #293E49;
     color: #ffffff;
     text-align: center;
+    font-size: 30px;
 }
 .cv-info-pdf .right {
   width: 70%;
@@ -87,15 +89,16 @@
 
 .experience-item {
     color: black !important;
+    font-size: 30px;
 }
 
 .company {
-  font-size: 18px;
+  font-size: 35px;
   font-weight: bold;
 }
 
 .school {
-  font-size: 18px;
+  font-size: 35px;
   font-weight: bold;
 }
 

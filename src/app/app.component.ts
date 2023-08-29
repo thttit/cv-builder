@@ -128,14 +128,28 @@ export class AppComponent {
     if (this.profileUser) {
       html2canvas(this.el.nativeElement).then((canvas) => {
         const contentDataUrl = canvas.toDataURL('image/png');
-        let pdf = new jsPDF('p', 'mm', 'a4');
-        var width = pdf.internal.pageSize.getWidth();
-        var height = (canvas.height * width) / canvas.width;
-        pdf.addImage(contentDataUrl, 'PNG', 0, 0, width, height);
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = pdf.internal.pageSize.getHeight();
+
+        const imgWidth = pdfWidth;
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+        let position = 0;
+
+        pdf.addImage(contentDataUrl, 'PNG', 0, position, imgWidth, imgHeight);
+
+        position += imgHeight;
+
+        // Check if remaining space is enough for another image
+        if (position < pdfHeight) {
+          pdf.addPage();
+        }
+
         pdf.save('cv.pdf');
       });
     } else {
-      alert('Không tim thấy dữ liệu');
+      alert('Không tìm thấy dữ liệu');
     }
   }
 }
