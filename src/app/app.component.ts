@@ -27,6 +27,8 @@ export class AppComponent {
   experiences: any[] = [];
   educations: any[] = [];
   works: any[] = [];
+  fundings: any[] = [];
+  professional: any[] = [];
   constructor(
     private getPfSv: GetProfileService,
     private authToken: AuthService
@@ -84,7 +86,11 @@ export class AppComponent {
         var splitted = this.linkProfile.split('/');
         var IdORCID = splitted[splitted.length - 1];
 
-        //test: https://orcid.org/0000-0001-9819-9860
+        //test: https://orcid.org/0000-0001-6402-2944
+        //  https://orcid.org/0000-0002-5272-3302
+        //  https://orcid.org/0000-0002-2068-605X
+        // https://orcid.org/0000-0003-2952-6703
+        // https://orcid.org/0000-0003-3188-3224
         this.getPfSv.getProfileORCID(await IdORCID).subscribe(
           (res) => {
             if (res) {
@@ -138,13 +144,18 @@ export class AppComponent {
 
   profileORCID() {
     this.fullName =
-      this.profileUser.person.name['family-name'].value +
-      this.profileUser.person.name['given-names'].value;
-    this.country = this.profileUser.person.addresses.address[0].country.value;
+      this.profileUser.person.name['given-names'].value +
+      ' ' +
+      this.profileUser.person.name['family-name'].value;
+    this.country =
+      this.profileUser.person.addresses.address[0] &&
+      this.profileUser.person.addresses.address[0].country &&
+      this.profileUser.person.addresses.address[0].country.value
+        ? this.profileUser.person.addresses.address[0].country.value
+        : '';
 
     let employments =
       this.profileUser['activities-summary'].employments['affiliation-group'];
-
     for (let i = 0; i < employments.length; i++) {
       let employment_summary =
         employments[i].summaries[0]['employment-summary'];
@@ -214,6 +225,26 @@ export class AppComponent {
         department_name: employment_summary['department-name']
           ? employment_summary['department-name']
           : '',
+        disambiguated_organization_identifier:
+          employment_summary.organization &&
+          employment_summary.organization['disambiguated-organization'] &&
+          employment_summary.organization['disambiguated-organization'][
+            'disambiguated-organization-identifier'
+          ]
+            ? employment_summary.organization['disambiguated-organization'][
+                'disambiguated-organization-identifier'
+              ]
+            : '',
+        disambiguation_source:
+          employment_summary.organization &&
+          employment_summary.organization['disambiguated-organization'] &&
+          employment_summary.organization['disambiguated-organization'][
+            'disambiguation-source'
+          ]
+            ? employment_summary.organization['disambiguated-organization'][
+                'disambiguation-source'
+              ]
+            : '',
       };
       this.experiences.push(experience);
     }
@@ -287,6 +318,26 @@ export class AppComponent {
         department_name: education_summary['department-name']
           ? education_summary['department-name']
           : '',
+        disambiguated_organization_identifier:
+          education_summary.organization &&
+          education_summary.organization['disambiguated-organization'] &&
+          education_summary.organization['disambiguated-organization'][
+            'disambiguated-organization-identifier'
+          ]
+            ? education_summary.organization['disambiguated-organization'][
+                'disambiguated-organization-identifier'
+              ]
+            : '',
+        disambiguation_source:
+          education_summary.organization &&
+          education_summary.organization['disambiguated-organization'] &&
+          education_summary.organization['disambiguated-organization'][
+            'disambiguation-source'
+          ]
+            ? education_summary.organization['disambiguated-organization'][
+                'disambiguation-source'
+              ]
+            : '',
       };
       this.educations.push(education);
     }
@@ -330,6 +381,187 @@ export class AppComponent {
             : '',
       };
       this.works.push(_work);
+    }
+
+    let fund = this.profileUser['activities-summary'].fundings.group;
+    for (let i = 0; i < fund.length; i++) {
+      let funding_summary = fund[i]['funding-summary'][0];
+      let funding = {
+        title:
+          funding_summary.title &&
+          funding_summary.title.title &&
+          funding_summary.title.title.value
+            ? funding_summary.title.title.value
+            : '',
+        start_year:
+          funding_summary['start-date'] &&
+          funding_summary['start-date'].year &&
+          funding_summary['start-date'].year.value
+            ? funding_summary['start-date'].year.value
+            : '',
+        start_month:
+          funding_summary['start-date'] &&
+          funding_summary['start-date'].month &&
+          funding_summary['start-date'].month.value
+            ? funding_summary['start-date'].month.value
+            : '',
+        start_day:
+          funding_summary['start-date'] &&
+          funding_summary['start-date'].day &&
+          funding_summary['start-date'].day.value
+            ? funding_summary['start-date'].day.value
+            : '',
+        end_year:
+          funding_summary['end-date'] &&
+          funding_summary['end-date'].year &&
+          funding_summary['end-date'].year.value
+            ? funding_summary['end-date'].year.value
+            : '',
+        end_month:
+          funding_summary['end-date'] &&
+          funding_summary['end-date'].month &&
+          funding_summary['end-date'].month.value
+            ? funding_summary['end-date'].month.value
+            : '',
+        end_day:
+          funding_summary['end-date'] &&
+          funding_summary['end-date'].day &&
+          funding_summary['end-date'].day.value
+            ? funding_summary['end-date'].day.value
+            : '',
+        type: funding_summary.type ? funding_summary.type : '',
+        organization:
+          funding_summary.organization && funding_summary.organization.name
+            ? funding_summary.organization.name
+            : '',
+        city:
+          funding_summary.organization &&
+          funding_summary.organization.address &&
+          funding_summary.organization.address.city
+            ? funding_summary.organization.address.city
+            : '',
+        region:
+          funding_summary.organization &&
+          funding_summary.organization.address &&
+          funding_summary.organization.address.region
+            ? funding_summary.organization.address.region
+            : '',
+        country:
+          funding_summary.organization &&
+          funding_summary.organization.address &&
+          funding_summary.organization.address.country
+            ? funding_summary.organization.address.country
+            : '',
+        disambiguated_organization_identifier:
+          funding_summary.organization &&
+          funding_summary.organization['disambiguated-organization'] &&
+          funding_summary.organization['disambiguated-organization'][
+            'disambiguated-organization-identifier'
+          ]
+            ? funding_summary.organization['disambiguated-organization'][
+                'disambiguated-organization-identifier'
+              ]
+            : '',
+        disambiguation_source:
+          funding_summary.organization &&
+          funding_summary.organization['disambiguated-organization'] &&
+          funding_summary.organization['disambiguated-organization'][
+            'disambiguation-source'
+          ]
+            ? funding_summary.organization['disambiguated-organization'][
+                'disambiguation-source'
+              ]
+            : '',
+      };
+      this.fundings.push(funding);
+    }
+
+    let pro =
+      this.profileUser['activities-summary'].memberships['affiliation-group'];
+    for (let i = 0; i < pro.length; i++) {
+      let pro_summary = pro[i].summaries[0]['membership-summary'];
+      let profession = {
+        organization:
+          pro_summary.organization && pro_summary.organization.name
+            ? pro_summary.organization.name
+            : '',
+        city:
+          pro_summary.organization &&
+          pro_summary.organization.address &&
+          pro_summary.organization.address.city
+            ? pro_summary.organization.address.city
+            : '',
+        region:
+          pro_summary.organization &&
+          pro_summary.organization.address &&
+          pro_summary.organization.address.region
+            ? pro_summary.organization.address.region
+            : '',
+        country:
+          pro_summary.organization &&
+          pro_summary.organization.address &&
+          pro_summary.organization.address.country
+            ? pro_summary.organization.address.country
+            : '',
+        start_year:
+          pro_summary['start-date'] &&
+          pro_summary['start-date'].year &&
+          pro_summary['start-date'].year.value
+            ? pro_summary['start-date'].year.value
+            : '',
+        start_month:
+          pro_summary['start-date'] &&
+          pro_summary['start-date'].month &&
+          pro_summary['start-date'].month.value
+            ? pro_summary['start-date'].month.value
+            : '',
+        start_day:
+          pro_summary['start-date'] &&
+          pro_summary['start-date'].day &&
+          pro_summary['start-date'].day.value
+            ? pro_summary['start-date'].day.value
+            : '',
+        end_year:
+          pro_summary['end-date'] &&
+          pro_summary['end-date'].year &&
+          pro_summary['end-date'].year.value
+            ? pro_summary['end-date'].year.value
+            : '',
+        end_month:
+          pro_summary['end-date'] &&
+          pro_summary['end-date'].month &&
+          pro_summary['end-date'].month.value
+            ? pro_summary['end-date'].month.value
+            : '',
+        end_day:
+          pro_summary['end-date'] &&
+          pro_summary['end-date'].day &&
+          pro_summary['end-date'].day.value
+            ? pro_summary['end-date'].day.value
+            : '',
+        role_title: pro_summary['role-title'] ? pro_summary['role-title'] : '',
+        disambiguated_organization_identifier:
+          pro_summary.organization &&
+          pro_summary.organization['disambiguated-organization'] &&
+          pro_summary.organization['disambiguated-organization'][
+            'disambiguated-organization-identifier'
+          ]
+            ? pro_summary.organization['disambiguated-organization'][
+                'disambiguated-organization-identifier'
+              ]
+            : '',
+        disambiguation_source:
+          pro_summary.organization &&
+          pro_summary.organization['disambiguated-organization'] &&
+          pro_summary.organization['disambiguated-organization'][
+            'disambiguation-source'
+          ]
+            ? pro_summary.organization['disambiguated-organization'][
+                'disambiguation-source'
+              ]
+            : '',
+      };
+      this.professional.push(profession);
     }
   }
 }
