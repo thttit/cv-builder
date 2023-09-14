@@ -26,6 +26,7 @@ export class AppComponent {
   skills: any[] = [];
   experiences: any[] = [];
   educations: any[] = [];
+  works: any[] = [];
   constructor(
     private getPfSv: GetProfileService,
     private authToken: AuthService
@@ -83,51 +84,18 @@ export class AppComponent {
         var splitted = this.linkProfile.split('/');
         var IdORCID = splitted[splitted.length - 1];
 
-        //test: https://orcid.org/0009-0007-1859-8716
+        //test: https://orcid.org/0000-0001-9819-9860
         this.getPfSv.getProfileORCID(await IdORCID).subscribe(
           (res) => {
             if (res) {
               alert('Build CV successfully');
               this.profileUser = res;
-              this.fullName =
-                this.profileUser.person.name['family-name'].value +
-                this.profileUser.person.name['given-names'].value;
-              this.country = this.profileUser.person.addresses.address[0].country.value;
-
-              let employments = this.profileUser['activities-summary'].employments['affiliation-group'];
-              for (let i = 0; i < employments.length; i++) {
-                let experience = {
-                  organization: employments[i].summaries[0]['employment-summary'].organization.name,
-                  start_year: employments[i].summaries[0]['employment-summary']['start-date'].year.value,
-                  start_month: employments[i].summaries[0]['employment-summary']['start-date'].month.value,
-                  start_day: employments[i].summaries[0]['employment-summary']['start-date'].day.value,
-                  // end_year: employments[i].summaries[0]['employment-summary']['end-date'].year.value,
-                  // end_month: employments[i].summaries[0]['employment-summary']['end-date'].month.value,
-                  // end_day: employments[i].summaries[0]['employment-summary']['end-date'].day.value,
-                  role_title: employments[i].summaries[0]['employment-summary']['role-title'],
-                };
-                this.experiences.push(experience);
-              }
-
-              let edu = this.profileUser['activities-summary'].educations['affiliation-group'];
-              for (let i = 0; i < edu.length; i++) {
-                let education = {
-                  organization: employments[i].summaries[0]['education-summary'].organization.name,
-                  start_year: employments[i].summaries[0]['education-summary']['start-date'].year.value,
-                  start_month: employments[i].summaries[0]['education-summary']['start-date'].month.value,
-                  start_day: employments[i].summaries[0]['education-summary']['start-date'].day.value,
-                  // end_year: employments[i].summaries[0]['education-summary']['end-date'].year.value,
-                  // end_month: employments[i].summaries[0]['education-summary']['end-date'].month.value,
-                  // end_day: employments[i].summaries[0]['education-summary']['end-date'].day.value,
-                  role_title: employments[i].summaries[0]['education-summary']['role-title'],
-                };
-                this.educations.push(education);
-              }
-              console.log(this.profileUser);
+              this.profileORCID();
             }
           },
-          (err) => {
-            console.log('Error:', err);
+          (error) => {
+            this.isLoading = false;
+            alert('Error when getting data');
           }
         );
       }
@@ -165,6 +133,203 @@ export class AppComponent {
       });
     } else {
       alert('Không tìm thấy dữ liệu');
+    }
+  }
+
+  profileORCID() {
+    this.fullName =
+      this.profileUser.person.name['family-name'].value +
+      this.profileUser.person.name['given-names'].value;
+    this.country = this.profileUser.person.addresses.address[0].country.value;
+
+    let employments =
+      this.profileUser['activities-summary'].employments['affiliation-group'];
+
+    for (let i = 0; i < employments.length; i++) {
+      let employment_summary =
+        employments[i].summaries[0]['employment-summary'];
+      let experience = {
+        organization:
+          employment_summary.organization &&
+          employment_summary.organization.name
+            ? employment_summary.organization.name
+            : '',
+        city:
+          employment_summary.organization &&
+          employment_summary.organization.address &&
+          employment_summary.organization.address.city
+            ? employment_summary.organization.address.city
+            : '',
+        region:
+          employment_summary.organization &&
+          employment_summary.organization.address &&
+          employment_summary.organization.address.region
+            ? employment_summary.organization.address.region
+            : '',
+        country:
+          employment_summary.organization &&
+          employment_summary.organization.address &&
+          employment_summary.organization.address.country
+            ? employment_summary.organization.address.country
+            : '',
+        start_year:
+          employment_summary['start-date'] &&
+          employment_summary['start-date'].year &&
+          employment_summary['start-date'].year.value
+            ? employment_summary['start-date'].year.value
+            : '',
+        start_month:
+          employment_summary['start-date'] &&
+          employment_summary['start-date'].month &&
+          employment_summary['start-date'].month.value
+            ? employment_summary['start-date'].month.value
+            : '',
+        start_day:
+          employment_summary['start-date'] &&
+          employment_summary['start-date'].day &&
+          employment_summary['start-date'].day.value
+            ? employment_summary['start-date'].day.value
+            : '',
+        end_year:
+          employment_summary['end-date'] &&
+          employment_summary['end-date'].year &&
+          employment_summary['end-date'].year.value
+            ? employment_summary['end-date'].year.value
+            : '',
+        end_month:
+          employment_summary['end-date'] &&
+          employment_summary['end-date'].month &&
+          employment_summary['end-date'].month.value
+            ? employment_summary['end-date'].month.value
+            : '',
+        end_day:
+          employment_summary['end-date'] &&
+          employment_summary['end-date'].day &&
+          employment_summary['end-date'].day.value
+            ? employment_summary['end-date'].day.value
+            : '',
+        role_title: employment_summary['role-title']
+          ? employment_summary['role-title']
+          : '',
+        department_name: employment_summary['department-name']
+          ? employment_summary['department-name']
+          : '',
+      };
+      this.experiences.push(experience);
+    }
+
+    let edu =
+      this.profileUser['activities-summary'].educations['affiliation-group'];
+    for (let i = 0; i < edu.length; i++) {
+      let education_summary = edu[i].summaries[0]['education-summary'];
+      let education = {
+        organization:
+          education_summary.organization && education_summary.organization.name
+            ? education_summary.organization.name
+            : '',
+        city:
+          education_summary.organization &&
+          education_summary.organization.address &&
+          education_summary.organization.address.city
+            ? education_summary.organization.address.city
+            : '',
+        region:
+          education_summary.organization &&
+          education_summary.organization.address &&
+          education_summary.organization.address.region
+            ? education_summary.organization.address.region
+            : '',
+        country:
+          education_summary.organization &&
+          education_summary.organization.address &&
+          education_summary.organization.address.country
+            ? education_summary.organization.address.country
+            : '',
+        start_year:
+          education_summary['start-date'] &&
+          education_summary['start-date'].year &&
+          education_summary['start-date'].year.value
+            ? education_summary['start-date'].year.value
+            : '',
+        start_month:
+          education_summary['start-date'] &&
+          education_summary['start-date'].month &&
+          education_summary['start-date'].month.value
+            ? education_summary['start-date'].month.value
+            : '',
+        start_day:
+          education_summary['start-date'] &&
+          education_summary['start-date'].day &&
+          education_summary['start-date'].day.value
+            ? education_summary['start-date'].day.value
+            : '',
+        end_year:
+          education_summary['end-date'] &&
+          education_summary['end-date'].year &&
+          education_summary['end-date'].year.value
+            ? education_summary['end-date'].year.value
+            : '',
+        end_month:
+          education_summary['end-date'] &&
+          education_summary['end-date'].month &&
+          education_summary['end-date'].month.value
+            ? education_summary['end-date'].month.value
+            : '',
+        end_day:
+          education_summary['end-date'] &&
+          education_summary['end-date'].day &&
+          education_summary['end-date'].day.value
+            ? education_summary['end-date'].day.value
+            : '',
+        role_title: education_summary['role-title']
+          ? education_summary['role-title']
+          : '',
+        department_name: education_summary['department-name']
+          ? education_summary['department-name']
+          : '',
+      };
+      this.educations.push(education);
+    }
+
+    let work = this.profileUser['activities-summary'].works.group;
+    for (let i = 0; i < work.length; i++) {
+      let work_summary = work[i]['work-summary'][0];
+      let _work = {
+        title:
+          work_summary.title &&
+          work_summary.title.title &&
+          work_summary.title.title.value
+            ? work_summary.title.title.value
+            : '',
+        journal_title:
+          work_summary['journal-title'] && work_summary['journal-title'].value
+            ? work_summary['journal-title'].value
+            : '',
+        publication_year:
+          work_summary['publication-date'] &&
+          work_summary['publication-date'].year &&
+          work_summary['publication-date'].year.value
+            ? work_summary['publication-date'].year.value
+            : '',
+        publication_month:
+          work_summary['publication-date'] &&
+          work_summary['publication-date'].month &&
+          work_summary['publication-date'].month.value
+            ? work_summary['publication-date'].month.value
+            : '',
+        publication_day:
+          work_summary['publication-date'] &&
+          work_summary['publication-date'].day &&
+          work_summary['publication-date'].day.value
+            ? work_summary['publication-date'].day.value
+            : '',
+        type: work_summary.type ? work_summary.type : '',
+        url:
+          work_summary.url && work_summary.url.value
+            ? work_summary.url.value
+            : '',
+      };
+      this.works.push(_work);
     }
   }
 }

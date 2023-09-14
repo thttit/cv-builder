@@ -2,7 +2,7 @@
     <!-- <h1 class="title">{{profileUserLinkedIn.first_name !== '' ? profileUserLinkedIn.first_name : ""}}</h1> -->
     <h1 class="title">CV Builder</h1>
     <div class="cv-builder-body">
-        <select name="select-page" id="select-page" class="select-page" [(ngModel)]= "pageGetProfile">
+        <select name="select-page" id="select-page" class="select-page" [(ngModel)]="pageGetProfile">
             <option value="linkedin">Linkedin</option>
             <option value="ggscholar">Google Scholar</option>
             <option value="rg">RG</option>
@@ -11,11 +11,13 @@
             <option value="ieee">IEEE</option>
         </select>
         <div class="link-cv">
-            <input type="text" class="link-cv-input" placeholder="Put your profile link here (Linkedin, Google Scholar, RG, ORCID, Crossref, IEEE)" [(ngModel)]= "linkProfile" (change)="onChangeInputProfileLink()">
+            <input type="text" class="link-cv-input"
+                placeholder="Put your profile link here (Linkedin, Google Scholar, RG, ORCID, Crossref, IEEE)"
+                [(ngModel)]="linkProfile" (change)="onChangeInputProfileLink()">
             <button class="build-cv-btn" (click)="buildCVPDF()">Build</button>
             <div *ngIf="isLoading" class="loading-container">
-              <div class="loading-spinner"></div>
-              <p class="loading-text">Getting data...</p>
+                <div class="loading-spinner"></div>
+                <p class="loading-text">Getting data...</p>
             </div>
         </div>
         <button class="download-cv-pdf-btn" (click)="downloadCVPDF()">Download PDF</button>
@@ -26,7 +28,7 @@
             <img [src]="profilePicUrl" alt="" class="avatar-img">
             <div class="full-name">{{fullName}}</div>
             <div class="study-at">{{studyAt}}</div>
-            <div class="address">{{city}}, {{country}}</div>
+            <div class="address">{{city ? ', ' + city : ''}}{{country}}</div>
         </div>
         <div class="right">
             <div class="right-item">
@@ -35,6 +37,14 @@
                     <div class="experience-item">
                         <p class="company">{{experience.company ? experience.company : ''}}</p>
                         <p class="position">{{experience.position ? experience.position : ''}}</p>
+                        <p class="organization">{{experience.organization}}: {{experience.city}}, {{experience.region}},
+                            {{experience.country}}</p>
+                        <p class="start_date">
+                            {{experience.start_year}}-{{experience.start_month}}-{{experience.start_day}} to
+                            {{experience.end_year ? experience.end_year :
+                            'present'}}{{experience.end_month ? '-' + experience.end_month : ''}}{{experience.end_day ?
+                            '-' + experience.end_day : ''}} | {{experience.role_title}} ({{experience.department_name}})
+                        </p>
                     </div>
                     <br />
                 </div>
@@ -43,20 +53,46 @@
                 <div class="title">Education</div>
                 <div class="right-item-list experience-list" *ngFor="let education of educations">
                     <div class="experience-item">
-                      <p class="school">{{education.school ? education.school : ''}}</p>
-                      <p class="fieldstudy">{{education.fieldOfStudy ? education.fieldOfStudy : ''}}</p>
+                        <p class="school">{{education.school ? education.school : ''}}</p>
+                        <p class="fieldstudy">{{education.fieldOfStudy ? education.fieldOfStudy : ''}}</p>
+                        <p class="organization">{{education.organization}}: {{education.city}}, {{education.region}},
+                            {{education.country}}</p>
+                        <p class="start_date">
+                            {{education.start_year}}-{{education.start_month}}-{{education.start_day}} to
+                            {{education.end_year ? education.end_year :
+                            'present'}}{{education.end_month ? '-' + education.end_month : ''}}{{education.end_day ?
+                            '-' + education.end_day : ''}} | {{education.role_title}} ({{education.department_name}})
+                        </p>
                     </div>
                     <br />
                 </div>
             </div>
             <div class="right-item">
-              <div class="title">Skills</div>
-              <div class="right-item-list experience-list" *ngFor="let skill of skills">
-                  <div class="experience-item">
-                      <li>{{skill.name}}</li>
-                  </div>
-              </div>
-          </div>
+                <div class="title">Skills</div>
+                <div class="right-item-list experience-list" *ngFor="let skill of skills">
+                    <div class="experience-item">
+                        <li>{{skill.name}}</li>
+                    </div>
+                </div>
+            </div>
+            <div class="right-item">
+                <div class="title">Works</div>
+                <div class="right-item-list experience-list" *ngFor="let work of works">
+                    <div class="experience-item">
+                        <p class="title">{{work.title}}</p>
+                        <p class="journal_title">{{work.journal_title ? work.journal_title : ''}}</p>
+                        <p class="publication_date">
+                            {{work.publication_year}}{{work.publication_month ? "-" + work.publication_month :
+                            ''}}{{work.publication_day ? "-" + work.publication_day : ''}}{{work.type ? "
+                            | " + work.type : ''}}
+                        </p>
+                        <p class="url">
+                            {{work.url ? "URL: " + work.url : ''}}
+                        </p>
+                    </div>
+                    <br />
+                </div>
+            </div>
         </div>
     </div>
 </div>
