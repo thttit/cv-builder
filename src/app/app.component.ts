@@ -95,6 +95,7 @@ export class AppComponent {
         this.getPfSv.getProfileORCID(await IdORCID).subscribe(
           (res) => {
             if (res) {
+              this.isLoading = false;
               alert('Build CV successfully');
               this.profileUser = res;
               const profileData = extractProfileORCIDData(this.profileUser);
