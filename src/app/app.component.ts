@@ -125,23 +125,24 @@ export class AppComponent {
   downloadCVPDF() {
     if (this.profileUser) {
       html2canvas(this.el.nativeElement).then((canvas) => {
-        const contentDataUrl = canvas.toDataURL('image/png');
         const pdf = new jsPDF('p', 'mm', 'a4');
-        const pdfWidth = pdf.internal.pageSize.getWidth();
-        const pdfHeight = pdf.internal.pageSize.getHeight();
-
-        const imgWidth = pdfWidth;
+        const pageHeight = pdf.internal.pageSize.getHeight();
+        const imgWidth = pdf.internal.pageSize.getWidth();
         const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
+        let heightLeft = imgHeight;
+        const contentDataURL = canvas.toDataURL('image/png');
         let position = 0;
 
-        pdf.addImage(contentDataUrl, 'PNG', 0, position, imgWidth, imgHeight);
+        // Thêm trang mới khi nội dung quá dài
+        while (heightLeft > 0) {
+          pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
+          heightLeft -= pageHeight;
+          position -= 295;
 
-        position += imgHeight;
-
-        // Check if remaining space is enough for another image
-        if (position < pdfHeight) {
-          pdf.addPage();
+          // Nếu còn nội dung, thêm một trang mới
+          if (heightLeft > 0) {
+            pdf.addPage();
+          }
         }
 
         pdf.save('cv.pdf');
