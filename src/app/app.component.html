@@ -2,7 +2,7 @@
     <!-- <h1 class="title">{{profileUserLinkedIn.first_name !== '' ? profileUserLinkedIn.first_name : ""}}</h1> -->
     <h1 class="title">CV Builder</h1>
     <div class="cv-builder-body">
-        <select name="select-page" id="select-page" class="select-page" [(ngModel)]="pageGetProfile">
+        <select name="select-page" id="select-page" class="select-page" [(ngModel)]="pageGetProfile" (ngModelChange)="changeSelect($event)">
             <option value="linkedin">Linkedin</option>
             <option value="ggscholar">Google Scholar</option>
             <option value="rg">RG</option>
@@ -30,7 +30,7 @@
             <div class="study-at">{{studyAt}}</div>
             <div class="address">{{city ? ', ' + city : ''}}{{country}}</div>
         </div>
-        <div class="right">
+        <div class="right" *ngIf="!isGgSholar">
             <div class="right-item">
                 <div class="title">Experience</div>
                 <div class="right-item-list company-list" *ngFor="let experience of experiences">
@@ -159,5 +159,8 @@
                 </div>
             </div>
         </div>
+
+
+        <app-gg-sholar *ngIf="isGgSholar"></app-gg-sholar>
     </div>
 </div>

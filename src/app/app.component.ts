@@ -6,6 +6,8 @@ import html2canvas from 'html2canvas';
 import { AuthService } from './services/auth.service';
 import { environment } from '../environments/environment';
 import { extractProfileORCIDData } from './profile/profile-orcid.utility';
+import { map } from 'rxjs';
+import { GgSholarService } from './services/ggSholarService';
 
 @Component({
   //Decurator
@@ -15,6 +17,7 @@ import { extractProfileORCIDData } from './profile/profile-orcid.utility';
 })
 //Từ "selector .... styleUrls": Metadata
 export class AppComponent {
+  isGgSholar: boolean = false
   isLoading: boolean = false;
   pageGetProfile: any;
   profileUser: any;
@@ -32,12 +35,13 @@ export class AppComponent {
   professional: any[] = [];
   constructor(
     private getPfSv: GetProfileService,
-    private authToken: AuthService
-  ) {}
+    private authToken: AuthService,
+    private ggSholarService: GgSholarService
+  ) { }
 
   @ViewChild('cvInfo', { static: false }) el!: ElementRef;
 
-  onChangeInputProfileLink() {}
+  onChangeInputProfileLink() { }
 
   async buildCVPDF() {
     if (this.linkProfile && this.pageGetProfile) {
@@ -113,6 +117,21 @@ export class AppComponent {
             alert('Error when getting data');
           }
         );
+      } else if (this.pageGetProfile === 'ggscholar') {
+        this.isGgSholar = true
+        this.isLoading = true;
+        this.ggSholarService.getGgscholar(this.linkProfile).subscribe(
+          (result: any) => {
+            if (result) {
+              this.profileUser = result
+              this.isLoading = false;
+              alert('Build CV successfully');
+              this.fullName = result.author.name
+              this.profilePicUrl = result.author.thumbnail
+              this.ggSholarService.emitButtonClick(result);
+            }
+          }
+        )
       }
       // else {
       //     //Viết code ở đây
@@ -150,5 +169,20 @@ export class AppComponent {
     } else {
       alert('Không tìm thấy dữ liệu');
     }
+  }
+  changeSelect(e: any) {
+    this.linkProfile = ''
+    switch (e) {
+      case "ggscholar":
+        this.isGgSholar = true
+        break;
+      default:
+        this.resetData()
+    }
+  }
+  resetData() {
+    this.isGgSholar = false
+    this.fullName = ''
+    this.profilePicUrl = null
   }
 }

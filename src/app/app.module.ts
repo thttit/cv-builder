@@ -5,10 +5,12 @@ import { OAuthModule, AuthConfig } from 'angular-oauth2-oidc';
 import { AppComponent } from './app.component';
 import { TokenInterceptorService } from './services/token-interceptor.service';
 import { FormsModule } from '@angular/forms';
+import { GgSholarComponent } from './ggscholar/gg-sholar/gg-sholar.component';
 
 @NgModule({ //@Decurator
   declarations: [
     AppComponent,
+    GgSholarComponent,
   ],
   imports: [
     BrowserModule,

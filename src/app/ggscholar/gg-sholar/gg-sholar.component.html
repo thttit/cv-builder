@@ -1,0 +1,16 @@
+
+<div class="content">
+    <h1 class="education">Education :
+        <ng-container *ngFor="let data of profileGgScholar.education">
+            <p> - {{data}}</p>
+        </ng-container>    
+    </h1>
+    <h1 class="work">Work : <p> - {{profileGgScholar.work ? profileGgScholar.work : ''}}</p></h1>
+    <h1 class="contact">Contact : <p> - {{profileGgScholar.contact ? profileGgScholar.contact : ''}}</p></h1>
+    <h1 class="achivement">Achievement : <p> - {{profileGgScholar.achivement ? profileGgScholar.achivement : ''}}</p></h1>
+    <h1 class="contributions">Contributions :
+        <ng-container *ngFor="let data of profileGgScholar.contributions,let i =index">
+            <p *ngIf="i<10"> - {{data}}</p>
+        </ng-container>    
+    </h1>
+</div>
