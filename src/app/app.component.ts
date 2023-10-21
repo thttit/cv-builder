@@ -18,6 +18,7 @@ import { GgSholarService } from './services/ggSholarService';
 //Từ "selector .... styleUrls": Metadata
 export class AppComponent {
   isGgSholar: boolean = false
+  isORCID: boolean = false
   isLoading: boolean = false;
   pageGetProfile: any;
   profileUser: any;
@@ -87,6 +88,7 @@ export class AppComponent {
           }
         );
       } else if (this.pageGetProfile == 'orcid') {
+        this.isORCID = true;
         this.isLoading = true;
         var splitted = this.linkProfile.split('/');
         var IdORCID = splitted[splitted.length - 1];
@@ -96,7 +98,7 @@ export class AppComponent {
         //  https://orcid.org/0000-0002-2068-605X
         // https://orcid.org/0000-0003-2952-6703
         // https://orcid.org/0000-0003-3188-3224
-        this.getPfSv.getProfileORCID(await IdORCID).subscribe(
+        this.getPfSv.getProfileORCID(IdORCID).subscribe(
           (res) => {
             if (res) {
               this.isLoading = false;

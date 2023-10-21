@@ -58,6 +58,7 @@
                     </div>
                     <br />
                 </div>
+                <hr size="2px" color="gray">
             </div>
             <div class="right-item">
                 <div class="title">Education</div>
@@ -84,16 +85,18 @@
                     </div>
                     <br />
                 </div>
+                <hr size="2px" color="gray">
             </div>
-            <div class="right-item">
+            <div class="right-item" *ngIf="!isORCID">
                 <div class="title">Skills</div>
                 <div class="right-item-list experience-list" *ngFor="let skill of skills">
                     <div class="experience-item">
                         <li>{{skill.name}}</li>
                     </div>
                 </div>
+                <hr size="2px" color="gray">
             </div>
-            <div class="right-item">
+            <div class="right-item" *ngIf="isORCID">
                 <div class="title">Works</div>
                 <div class="right-item-list experience-list" *ngFor="let work of works">
                     <div class="experience-item">
@@ -110,8 +113,9 @@
                     </div>
                     <br />
                 </div>
+                <hr size="2px" color="gray">
             </div>
-            <div class="right-item">
+            <div class="right-item" *ngIf="isORCID">
                 <div class="title">Fundings</div>
                 <div class="right-item-list experience-list" *ngFor="let funding of fundings">
                     <div class="experience-item">
@@ -134,8 +138,9 @@
                     </div>
                     <br />
                 </div>
+                <hr size="2px" color="gray">
             </div>
-            <div class="right-item">
+            <div class="right-item" *ngIf="isORCID">
                 <div class="title">Professional activities</div>
                 <div class="right-item-list experience-list" *ngFor="let pro of professional">
                     <div class="experience-item">
@@ -157,6 +162,7 @@
                     </div>
                     <br />
                 </div>
+                <hr size="2px" color="gray">
             </div>
         </div>
 
