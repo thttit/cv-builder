@@ -17,6 +17,7 @@ import { GgSholarService } from './services/ggSholarService';
 })
 //Từ "selector .... styleUrls": Metadata
 export class AppComponent {
+  isIEEE: boolean = false
   isGgSholar: boolean = false
   isORCID: boolean = false
   isLoading: boolean = false;
@@ -134,6 +135,9 @@ export class AppComponent {
             }
           }
         )
+      } else if (this.pageGetProfile === 'ieee') {
+        this.isIEEE = true
+        this.isLoading = true
       }
       // else {
       //     //Viết code ở đây

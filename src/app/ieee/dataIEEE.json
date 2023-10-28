@@ -1,0 +1,32 @@
+[
+    {
+        "id": {
+            "link": "https://ieeexplore.ieee.org/author/37265576200",
+            "name": "Innocent Kamwa",
+            "img": "https://ieeexplore.ieee.org/mediastore_new/IEEE/content/author_profile_image/37265576200.gif",
+            "affiliation": "Affiliation\nDepartment of Electrical Engineering and Computer Engineering\nFaculty of Science and Engineering\nLaval University, Qu\u00e9bec City, QC, Canada",
+            "public_topic": "Publication Topics\npower generation control,power grids,distributed power generation,power system stability,power engineering computing,optimisation,power system control,power system measurement,\n...",
+            "bio": "Biography\nDr. Kamwa received his Bachelor and PhD degrees in Electrical Engineering from Laval University, in 1985 and 1989 respectively. A professor in the Electrical and Computer Engineering Department and Tier 1 Canada Research Chair in Decentralized Sustainable Electricity Grids for Smart Communities at Laval University since September 2020, Dr. Kamwa was previously a researcher at Hydro-Qu\u00e9bec's Research Institute (IREQ), where for three decades, he specialized in the dynamic performance and control of power systems from a utility perspective. Prior to his retirement from Hydro-Qu\u00e9bec, he was successively, Chief scientist for the Smart grid Innovation Program, Acting Scientific Director and Head of Power system and Mathematics, responsible for t......"
+        }
+    },
+    {
+        "id": {
+            "link": "https://ieeexplore.ieee.org/author/37280142900",
+            "name": "Shih-Chii Liu",
+            "img": "https://ieeexplore.ieee.org/mediastore_new/IEEE/content/author_profile_image/37280142900.gif",
+            "affiliation": "Affiliation\nInstitute of Neuroinformatics\nUniversity of Z\u00fcrich and ETH Z\u00fcrich\nZ\u00fcrich, Switzerland",
+            "public_topic": "Publication Topics\nlearning (artificial intelligence),feature extraction,neural nets,deep learning (artificial intelligence),audio signal processing,body sensor networks,patient monitoring,recurrent neural nets,\n...",
+            "bio": "Biography\nShih-Chii Liu (Fellow, IEEE) received the bachelor\u2019s degree in electrical engineering from the Massachusetts Institute of Technology, Cambridge, MA, USA, and the Ph.D. degree in the computation and neural systems program from the California Institute of Technology, Pasadena, CA, USA, in 1997. She is currently a Professor with the Faculty of Science, University of Zurich. She co-directs the Sensors Group at the Institute of Neuroinformatics, University of Zurich and ETH Zurich. Her group\u2019s research focuses on sensor integrated circuit designs, including the spiking silicon cochlea and bio-inspired auditory sensors; and real-time energy- efficient hardware systems that combine both sensor and event-driven low-compute deep neural network algor......"
+        }
+    },
+    {
+        "id": {
+            "link": "https://ieeexplore.ieee.org/author/37271997300",
+            "name": "Melba Crawford",
+            "img": "https://ieeexplore.ieee.org/mediastore_new/IEEE/content/freeimages/4609443/9973430/10009003/crawf-3232031-small.gif",
+            "affiliation": "Affiliation\nSchool of Civil Engineering, Purdue University\nDepartment of Agronomy, Purdue University",
+            "public_topic": "Publication Topics\nautonomous aerial vehicles,crops,feature extraction,geophysical image processing,remotely operated vehicles,agriculture,image colour analysis,learning (artificial intelligence),\n...",
+            "bio": "Biography\nMelba Crawford (Fellow, IEEE) received the Ph.D. degree in systems engineering from The Ohio State University, Columbus, OH, USA, in 1981.,She is currently the Nancy Uridil and Francis Bossu Professor of Civil Engineering with Purdue University, West Lafayette, IN, USA, where she is also a Professor with the School of Electrical and Computer Engineering and the Department of Agronomy. Her research interests include the development of machine learning-based algorithms for classification and prediction, and applications of these methods to hyperspectral and LIDAR remotely sensed data.,Prof. Crawford was the recipient of the GRSS Outstanding Service Award in 2020 and the IEEE GRSS David Landgrebe Research Award in 2021.(Based on document published on 6 January 2023)."
+        }
+    }
+]
