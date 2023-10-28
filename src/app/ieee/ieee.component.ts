@@ -11,6 +11,6 @@ export class IeeeComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.dataIEEE = JSON.parse(localStorage.getItem('dataIEEE'));
+    // this.dataIEEE = JSON.parse(localStorage.getItem('dataIEEE'));
   }
 }
