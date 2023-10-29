@@ -7,7 +7,7 @@
             <option value="ggscholar">Google Scholar</option>
             <option value="rg">RG</option>
             <option value="orcid">ORCID</option>
-            <option value="crosref">Crossref</option>
+            <option value="crossref">Crossref</option>
             <option value="ieee">IEEE</option>
         </select>
         <div class="link-cv">
@@ -30,7 +30,7 @@
             <div class="study-at">{{studyAt}}</div>
             <div class="address">{{city ? ', ' + city : ''}}{{country}}</div>
         </div>
-        <div class="right" *ngIf="!isGgSholar">
+        <div id="naruto" class="right" *ngIf="!isGgSholar">
             <div class="right-item">
                 <div class="title">Experience</div>
                 <div class="right-item-list company-list" *ngFor="let experience of experiences">

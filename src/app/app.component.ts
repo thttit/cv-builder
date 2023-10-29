@@ -6,6 +6,7 @@ import html2canvas from 'html2canvas';
 import { AuthService } from './services/auth.service';
 import { environment } from '../environments/environment';
 import { extractProfileORCIDData } from './profile/profile-orcid.utility';
+import { extractProfileCrossrefData } from './profile/profile-crossref.utility';
 import { map } from 'rxjs';
 import { GgSholarService } from './services/ggSholarService';
 
@@ -27,7 +28,10 @@ export class AppComponent {
   fullName: any;
   studyAt: any;
   city: any;
+  title: any;
   country: any;
+  abstract: any;
+  other: any;
   skills: any[] = [];
   experiences: any[] = [];
   educations: any[] = [];
@@ -135,6 +139,84 @@ export class AppComponent {
           }
         )
       }
+
+      // Crossref Link test: 
+      // https://doi.org/10.11646/zootaxa.5164.1.1
+      // https://doi.org/10.54957/jolas.v2i2.182
+      // https://doi.org/10.33545/26175754.2021.v4.i2a.110
+      // https://doi.org/10.1364/JOSAB.1.000354
+
+      else if (this.pageGetProfile == 'crossref') {
+
+
+        this.isLoading = true;
+        var splitted = this.linkProfile.split('/');
+        var DOIcrossref = splitted[splitted.length - 2] + "/" + splitted[splitted.length - 1];
+        this.getPfSv.getProfileCrossref(await DOIcrossref).subscribe(
+          async (res) => {
+            if (res) {
+              this.isLoading = false;
+              alert('Build CV successfully');
+              this.profileUser = res;
+              const profileData = extractProfileCrossrefData(this.profileUser);
+              this.fullName = profileData.fullName;
+              var memberID = profileData.member;
+              this.country = this.getPfSv.getLocationCrossref(await memberID).subscribe(
+                (resp) => {
+                  if (resp) {
+                    this.country = resp.message.location;
+                  }
+                });
+              this.works = profileData.works;
+              this.title = profileData.title;
+              this.abstract = profileData.abstract;
+              
+              // Thay đổi giao diện cho phù hợp
+              const myElement = document.getElementById("naruto");
+              if (myElement) {
+              myElement.innerHTML = `
+              <style>
+              .right-item{
+                  color: black;
+                  font-size: 40px;
+                  text-align: left;
+                  margin: 8px 0;
+              }
+              
+              .content{
+                color: black;
+                text-align: left;
+                margin: 3px 0;
+              }
+              </style>
+              <div class="right-item">Subject</div>
+                <p class="content">${this.works}</p>
+              <hr>
+
+              <div class="right-item">Research</div>
+                <p class="content">${this.title}</p>
+              <hr>
+
+              <div class="right-item">Summary</div>
+                <p class="content">${this.abstract}</p>
+              <hr>
+              `;
+                  // Lấy nội dung HTML từ phần tử
+                  const content = myElement.innerHTML;
+                  
+                  console.log(content);
+              } else {
+                  console.log("Không tìm thấy phần tử với ID 'myElement'");
+              }
+            }
+          },
+          (error) => {
+            this.isLoading = false;
+            alert('Error when getting data');
+          }
+        )
+      }
+
       // else {
       //     //Viết code ở đây
       // }

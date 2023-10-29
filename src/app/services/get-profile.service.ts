@@ -23,6 +23,26 @@ export class GetProfileService {
 
     return this.http.get<any>(url, { headers });
   }
+
+  getProfileCrossref(linkProfileCrossref: string): Observable<any> {
+    const url = `https://api.crossref.org/works/${linkProfileCrossref}`;
+    // Định nghĩa các headers cần thiết cho yêu cầu
+    const headers = {
+      Accept: 'application/json',
+    };
+    // Gửi yêu cầu GET đến trang Crossref
+    return this.http.get<any>(url, { headers });
+  }
+  getLocationCrossref(idmember: string): Observable<any> {
+    // this.getProfileCrossref()
+    const url = `https://api.crossref.org/members/${idmember}`;
+    // Định nghĩa các headers cần thiết cho yêu cầu
+    const headers = {
+      Accept: 'application/json',
+    };
+    // Gửi yêu cầu GET đến trang Crossref
+    return this.http.get<any>(url, { headers });
+  }
   // getProfileLinkedIn1(linkProfileLinkedIn: string){
   //     let linkAPIGetProfileLinkedin = `https://nubela.co/proxycurl/api/v2/linkedin?url=${linkProfileLinkedIn}&fallback_to_cache=on-error&skills=include`
   //     console.log(`Link linkedin profile service: ` + linkAPIGetProfileLinkedin);
