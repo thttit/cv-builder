@@ -1,172 +1,174 @@
 <div class="cv-builder" id="content">
-    <!-- <h1 class="title">{{profileUserLinkedIn.first_name !== '' ? profileUserLinkedIn.first_name : ""}}</h1> -->
-    <h1 class="title">CV Builder</h1>
-    <div class="cv-builder-body">
-        <select name="select-page" id="select-page" class="select-page" [(ngModel)]="pageGetProfile" (ngModelChange)="changeSelect($event)">
-            <option value="linkedin">Linkedin</option>
-            <option value="ggscholar">Google Scholar</option>
-            <option value="rg">RG</option>
-            <option value="orcid">ORCID</option>
-            <option value="crosref">Crossref</option>
-            <option value="ieee">IEEE</option>
-        </select>
-        <div class="link-cv">
-            <input type="text" class="link-cv-input"
-                placeholder="Put your profile link here (Linkedin, Google Scholar, RG, ORCID, Crossref, IEEE)"
-                [(ngModel)]="linkProfile" (change)="onChangeInputProfileLink()">
-            <button class="build-cv-btn" (click)="buildCVPDF()">Build</button>
-            <div *ngIf="isLoading" class="loading-container">
-                <div class="loading-spinner"></div>
-                <p class="loading-text">Getting data...</p>
-            </div>
+  <!-- <h1 class="title">{{profileUserLinkedIn.first_name !== '' ? profileUserLinkedIn.first_name : ""}}</h1> -->
+  <h1 class="title">CV Builder</h1>
+  <div class="cv-builder-body">
+    <select name="select-page" id="select-page" class="select-page" [(ngModel)]="pageGetProfile"
+      (ngModelChange)="changeSelect($event)">
+      <option value="linkedin">Linkedin</option>
+      <option value="ggscholar">Google Scholar</option>
+      <option value="rg">RG</option>
+      <option value="orcid">ORCID</option>
+      <option value="crosref">Crossref</option>
+      <option value="ieee">IEEE</option>
+    </select>
+    <div class="link-cv">
+      <input type="text" class="link-cv-input"
+        placeholder="Put your profile link here (Linkedin, Google Scholar, RG, ORCID, Crossref, IEEE)"
+        [(ngModel)]="linkProfile" (change)="onChangeInputProfileLink()">
+      <button class="build-cv-btn" (click)="buildCVPDF()">Build</button>
+      <div *ngIf="isLoading" class="loading-container">
+        <div class="loading-spinner"></div>
+        <p class="loading-text">Getting data...</p>
+      </div>
+    </div>
+    <button class="download-cv-pdf-btn" (click)="downloadCVPDF()">Download PDF</button>
+  </div>
+
+  <div class="cv-info-pdf" id="cvInfo" #cvInfo>
+    <div class="left">
+      <img [src]="profilePicUrl" alt="" class="avatar-img">
+      <div class="full-name">{{fullName}}</div>
+      <div class="study-at">{{studyAt}}</div>
+      <div class="address">{{city ? ', ' + city : ''}}{{country}}</div>
+    </div>
+    <div class="right" *ngIf="!isGgSholar !isIEEE">
+      <div class="right-item">
+        <div class="title">Experience</div>
+        <div class="right-item-list company-list" *ngFor="let experience of experiences">
+          <div class="experience-item">
+            <p class="company">{{experience.company ? experience.company : ''}}</p>
+            <p class="position">{{experience.position ? experience.position : ''}}</p>
+            <p class="organization"><strong>{{experience.organization}}{{experience.city ? ': ' +
+                experience.city : ''}}{{experience.region ? ', ' +
+                experience.region : ''}}{{experience.country ? ', ' + experience.country: ''}}</strong>
+            </p>
+            <p class="start_date">
+              {{experience.start_year}}{{experience.start_month ? '-' + experience.start_month :
+              ''}}{{experience.start_day ? '-' + experience.start_day : ''}}
+              {{experience.end_year ? ' to ' + experience.end_year : (experience.start_year ? ' to
+              present' : '')}}{{experience.end_month ? '-' + experience.end_month :
+              ''}}{{experience.end_day ?
+              '-' + experience.end_day + ' | ' : ' |
+              '}}{{experience.role_title}}{{experience.department_name
+              ? ' (' + experience.department_name + ')' : ''}}
+            </p>
+            <p class="ror">
+              {{experience.disambiguation_source ? experience.disambiguation_source + ': ' :
+              ''}}{{experience.disambiguated_organization_identifier}}
+            </p>
+          </div>
+          <br />
         </div>
-        <button class="download-cv-pdf-btn" (click)="downloadCVPDF()">Download PDF</button>
+        <hr size="2px" color="gray">
+      </div>
+      <div class="right-item">
+        <div class="title">Education</div>
+        <div class="right-item-list experience-list" *ngFor="let education of educations">
+          <div class="experience-item">
+            <p class="school">{{education.school ? education.school : ''}}</p>
+            <p class="fieldstudy">{{education.fieldOfStudy ? education.fieldOfStudy : ''}}</p>
+            <p class="organization"><strong>{{education.organization}}{{education.city ? ': ' +
+                education.city : ''}}{{education.region ? ', ' +
+                education.region : ''}}{{education.country ? ', ' + education.country: ''}}</strong></p>
+            <p class="start_date">
+              {{education.start_year}}{{education.start_month ? '-' + education.start_month :
+              ''}}{{education.start_day ? '-' + education.start_day : ''}}
+              {{education.end_year ? ' to ' + education.end_year : (education.start_year ? ' to present' :
+              '')}}{{education.end_month ? '-' + education.end_month : ''}}{{education.end_day ?
+              '-' + education.end_day + ' | ' : ' | '}}{{education.role_title}}{{education.department_name
+              ?
+              ' (' + education.department_name + ')' : ''}}
+            </p>
+            <p class="ror">
+              {{education.disambiguation_source ? education.disambiguation_source + ': ' :
+              ''}}{{education.disambiguated_organization_identifier}}
+            </p>
+          </div>
+          <br />
+        </div>
+        <hr size="2px" color="gray">
+      </div>
+      <div class="right-item" *ngIf="!isORCID">
+        <div class="title">Skills</div>
+        <div class="right-item-list experience-list" *ngFor="let skill of skills">
+          <div class="experience-item">
+            <li>{{skill.name}}</li>
+          </div>
+        </div>
+        <hr size="2px" color="gray">
+      </div>
+      <div class="right-item" *ngIf="isORCID">
+        <div class="title">Works</div>
+        <div class="right-item-list experience-list" *ngFor="let work of works">
+          <div class="experience-item">
+            <p class="work_title"><strong>{{work.title}}</strong></p>
+            <p class="journal_title">{{work.journal_title ? work.journal_title : ''}}</p>
+            <p class="publication_date">
+              {{work.publication_year}}{{work.publication_month ? "-" + work.publication_month :
+              ''}}{{work.publication_day ? "-" + work.publication_day : ''}}{{work.type ? "
+              | " + work.type : ''}}
+            </p>
+            <p class="url">
+              {{work.url ? "URL: " + work.url : ''}}
+            </p>
+          </div>
+          <br />
+        </div>
+        <hr size="2px" color="gray">
+      </div>
+      <div class="right-item" *ngIf="isORCID">
+        <div class="title">Fundings</div>
+        <div class="right-item-list experience-list" *ngFor="let funding of fundings">
+          <div class="experience-item">
+            <p class="funding_title"><strong>{{funding.title}}</strong></p>
+            <p class="start_date">
+              {{funding.start_year}}{{funding.start_month ? '-' + funding.start_month :
+              ''}}{{funding.start_day ? '-' + funding.start_day : ''}}
+              {{funding.end_year ? ' to ' + funding.end_year : (funding.start_year ? ' to present' :
+              '')}}{{funding.end_month ? '-' + funding.end_month : ''}}{{funding.end_day ?
+              '-' + funding.end_day + ' | ' : ' | '}}{{funding.type}}
+            </p>
+            <p class="organization">
+              {{funding.organization}}{{funding.city ? ' (' + funding.city : ''}}{{funding.region ? ', ' +
+              funding.region : ''}}{{funding.country ? ', ' + funding.country + ')' : ')'}}
+            </p>
+            <p class="fundref">
+              {{funding.disambiguation_source ? funding.disambiguation_source + ': ' :
+              ''}}{{funding.disambiguated_organization_identifier}}
+            </p>
+          </div>
+          <br />
+        </div>
+        <hr size="2px" color="gray">
+      </div>
+      <div class="right-item" *ngIf="isORCID">
+        <div class="title">Professional activities</div>
+        <div class="right-item-list experience-list" *ngFor="let pro of professional">
+          <div class="experience-item">
+            <p class="organization"><strong>
+                {{pro.organization}}{{pro.city ? ': ' + pro.city : ''}}{{pro.region ? ', ' +
+                pro.region : ''}}{{pro.country ? ', ' + pro.country: ''}}
+              </strong></p>
+            <p class="start_date">
+              {{pro.start_year}}{{pro.start_month ? '-' + pro.start_month :
+              ''}}{{pro.start_day ? '-' + pro.start_day : ''}}
+              {{pro.end_year ? ' to ' + pro.end_year : (pro.start_year ? ' to present' :
+              '')}}{{pro.end_month ? '-' + pro.end_month : ''}}{{pro.end_day ?
+              '-' + pro.end_day + ' | ' : ' | '}}{{pro.role_title}}
+            </p>
+            <p class="ror">
+              {{pro.disambiguation_source ? pro.disambiguation_source + ': ' :
+              ''}}{{pro.disambiguated_organization_identifier}}
+            </p>
+          </div>
+          <br />
+        </div>
+        <hr size="2px" color="gray">
+      </div>
     </div>
 
-    <div class="cv-info-pdf" id="cvInfo" #cvInfo>
-        <div class="left">
-            <img [src]="profilePicUrl" alt="" class="avatar-img">
-            <div class="full-name">{{fullName}}</div>
-            <div class="study-at">{{studyAt}}</div>
-            <div class="address">{{city ? ', ' + city : ''}}{{country}}</div>
-        </div>
-        <div class="right" *ngIf="!isGgSholar">
-            <div class="right-item">
-                <div class="title">Experience</div>
-                <div class="right-item-list company-list" *ngFor="let experience of experiences">
-                    <div class="experience-item">
-                        <p class="company">{{experience.company ? experience.company : ''}}</p>
-                        <p class="position">{{experience.position ? experience.position : ''}}</p>
-                        <p class="organization"><strong>{{experience.organization}}{{experience.city ? ': ' +
-                                experience.city : ''}}{{experience.region ? ', ' +
-                                experience.region : ''}}{{experience.country ? ', ' + experience.country: ''}}</strong>
-                        </p>
-                        <p class="start_date">
-                            {{experience.start_year}}{{experience.start_month ? '-' + experience.start_month :
-                            ''}}{{experience.start_day ? '-' + experience.start_day : ''}}
-                            {{experience.end_year ? ' to ' + experience.end_year : (experience.start_year ? ' to
-                            present' : '')}}{{experience.end_month ? '-' + experience.end_month :
-                            ''}}{{experience.end_day ?
-                            '-' + experience.end_day + ' | ' : ' |
-                            '}}{{experience.role_title}}{{experience.department_name
-                            ? ' (' + experience.department_name + ')' : ''}}
-                        </p>
-                        <p class="ror">
-                            {{experience.disambiguation_source ? experience.disambiguation_source + ': ' :
-                            ''}}{{experience.disambiguated_organization_identifier}}
-                        </p>
-                    </div>
-                    <br />
-                </div>
-                <hr size="2px" color="gray">
-            </div>
-            <div class="right-item">
-                <div class="title">Education</div>
-                <div class="right-item-list experience-list" *ngFor="let education of educations">
-                    <div class="experience-item">
-                        <p class="school">{{education.school ? education.school : ''}}</p>
-                        <p class="fieldstudy">{{education.fieldOfStudy ? education.fieldOfStudy : ''}}</p>
-                        <p class="organization"><strong>{{education.organization}}{{education.city ? ': ' +
-                                education.city : ''}}{{education.region ? ', ' +
-                                education.region : ''}}{{education.country ? ', ' + education.country: ''}}</strong></p>
-                        <p class="start_date">
-                            {{education.start_year}}{{education.start_month ? '-' + education.start_month :
-                            ''}}{{education.start_day ? '-' + education.start_day : ''}}
-                            {{education.end_year ? ' to ' + education.end_year : (education.start_year ? ' to present' :
-                            '')}}{{education.end_month ? '-' + education.end_month : ''}}{{education.end_day ?
-                            '-' + education.end_day + ' | ' : ' | '}}{{education.role_title}}{{education.department_name
-                            ?
-                            ' (' + education.department_name + ')' : ''}}
-                        </p>
-                        <p class="ror">
-                            {{education.disambiguation_source ? education.disambiguation_source + ': ' :
-                            ''}}{{education.disambiguated_organization_identifier}}
-                        </p>
-                    </div>
-                    <br />
-                </div>
-                <hr size="2px" color="gray">
-            </div>
-            <div class="right-item" *ngIf="!isORCID">
-                <div class="title">Skills</div>
-                <div class="right-item-list experience-list" *ngFor="let skill of skills">
-                    <div class="experience-item">
-                        <li>{{skill.name}}</li>
-                    </div>
-                </div>
-                <hr size="2px" color="gray">
-            </div>
-            <div class="right-item" *ngIf="isORCID">
-                <div class="title">Works</div>
-                <div class="right-item-list experience-list" *ngFor="let work of works">
-                    <div class="experience-item">
-                        <p class="work_title"><strong>{{work.title}}</strong></p>
-                        <p class="journal_title">{{work.journal_title ? work.journal_title : ''}}</p>
-                        <p class="publication_date">
-                            {{work.publication_year}}{{work.publication_month ? "-" + work.publication_month :
-                            ''}}{{work.publication_day ? "-" + work.publication_day : ''}}{{work.type ? "
-                            | " + work.type : ''}}
-                        </p>
-                        <p class="url">
-                            {{work.url ? "URL: " + work.url : ''}}
-                        </p>
-                    </div>
-                    <br />
-                </div>
-                <hr size="2px" color="gray">
-            </div>
-            <div class="right-item" *ngIf="isORCID">
-                <div class="title">Fundings</div>
-                <div class="right-item-list experience-list" *ngFor="let funding of fundings">
-                    <div class="experience-item">
-                        <p class="funding_title"><strong>{{funding.title}}</strong></p>
-                        <p class="start_date">
-                            {{funding.start_year}}{{funding.start_month ? '-' + funding.start_month :
-                            ''}}{{funding.start_day ? '-' + funding.start_day : ''}}
-                            {{funding.end_year ? ' to ' + funding.end_year : (funding.start_year ? ' to present' :
-                            '')}}{{funding.end_month ? '-' + funding.end_month : ''}}{{funding.end_day ?
-                            '-' + funding.end_day + ' | ' : ' | '}}{{funding.type}}
-                        </p>
-                        <p class="organization">
-                            {{funding.organization}}{{funding.city ? ' (' + funding.city : ''}}{{funding.region ? ', ' +
-                            funding.region : ''}}{{funding.country ? ', ' + funding.country + ')' : ')'}}
-                        </p>
-                        <p class="fundref">
-                            {{funding.disambiguation_source ? funding.disambiguation_source + ': ' :
-                            ''}}{{funding.disambiguated_organization_identifier}}
-                        </p>
-                    </div>
-                    <br />
-                </div>
-                <hr size="2px" color="gray">
-            </div>
-            <div class="right-item" *ngIf="isORCID">
-                <div class="title">Professional activities</div>
-                <div class="right-item-list experience-list" *ngFor="let pro of professional">
-                    <div class="experience-item">
-                        <p class="organization"><strong>
-                                {{pro.organization}}{{pro.city ? ': ' + pro.city : ''}}{{pro.region ? ', ' +
-                                pro.region : ''}}{{pro.country ? ', ' + pro.country: ''}}
-                            </strong></p>
-                        <p class="start_date">
-                            {{pro.start_year}}{{pro.start_month ? '-' + pro.start_month :
-                            ''}}{{pro.start_day ? '-' + pro.start_day : ''}}
-                            {{pro.end_year ? ' to ' + pro.end_year : (pro.start_year ? ' to present' :
-                            '')}}{{pro.end_month ? '-' + pro.end_month : ''}}{{pro.end_day ?
-                            '-' + pro.end_day + ' | ' : ' | '}}{{pro.role_title}}
-                        </p>
-                        <p class="ror">
-                            {{pro.disambiguation_source ? pro.disambiguation_source + ': ' :
-                            ''}}{{pro.disambiguated_organization_identifier}}
-                        </p>
-                    </div>
-                    <br />
-                </div>
-                <hr size="2px" color="gray">
-            </div>
-        </div>
 
-
-        <app-gg-sholar *ngIf="isGgSholar"></app-gg-sholar>
-    </div>
+    <app-gg-sholar *ngIf="isGgSholar"></app-gg-sholar>
+    <app-ieee *ngIf="isIEEE"></app-ieee>
+  </div>
 </div>

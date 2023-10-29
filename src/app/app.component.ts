@@ -1,13 +1,12 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { OnInit } from '@angular/core';
 import { GetProfileService } from './services/get-profile.service';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
 import { AuthService } from './services/auth.service';
 import { environment } from '../environments/environment';
 import { extractProfileORCIDData } from './profile/profile-orcid.utility';
-import { map } from 'rxjs';
 import { GgSholarService } from './services/ggSholarService';
+import { IEEEService } from './services/ieeeService';
 
 @Component({
   //Decurator
@@ -17,9 +16,9 @@ import { GgSholarService } from './services/ggSholarService';
 })
 //Từ "selector .... styleUrls": Metadata
 export class AppComponent {
-  isIEEE: boolean = false
-  isGgSholar: boolean = false
-  isORCID: boolean = false
+  isIEEE: boolean = false;
+  isGgSholar: boolean = false;
+  isORCID: boolean = false;
   isLoading: boolean = false;
   pageGetProfile: any;
   profileUser: any;
@@ -38,7 +37,8 @@ export class AppComponent {
   constructor(
     private getPfSv: GetProfileService,
     private authToken: AuthService,
-    private ggSholarService: GgSholarService
+    private ggSholarService: GgSholarService,
+    private ieeeService: IEEEService
   ) { }
 
   @ViewChild('cvInfo', { static: false }) el!: ElementRef;
@@ -138,6 +138,18 @@ export class AppComponent {
       } else if (this.pageGetProfile === 'ieee') {
         this.isIEEE = true
         this.isLoading = true
+        this.ieeeService.getProfileIEEE(this.linkProfile).subscribe(
+          (res: any) => {
+            if (res) {
+              this.isLoading = false
+              this.profileUser = res
+              alert('Build CV successfully');
+              this.fullName = res.info.name
+              this.profilePicUrl = res.info.img
+              // this.ieeeService.emitButtonClick(res)
+            }
+          }
+        )
       }
       // else {
       //     //Viết code ở đây

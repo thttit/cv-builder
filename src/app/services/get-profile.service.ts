@@ -24,10 +24,11 @@ export class GetProfileService {
     return this.http.get<any>(url, { headers });
   }
   getProfileIEEE(linkProfileIEEE: string) {
-    return this.http.get(
-      `${linkProfileIEEE}&apikey=ux9rgx2rthg3c548b82ekwu5`
-    );
-    const url = `http://ieeexploreapi.ieee.org/api/v1/search/articles?querytext=altmetrics&format=json&apikey=ux9rgx2rthg3c548b82ekwu5`
+    const jsonData = './data_authors.json'
+    const linkVariable = String(jsonData[0].link);
+    linkVariable == linkProfileIEEE
+    return this.http.get<any>(`${linkProfileIEEE}`);
+    // const url = `http://ieeexploreapi.ieee.org/api/v1/search/articles?querytext=altmetrics&format=json&apikey=ux9rgx2rthg3c548b82ekwu5`
   }
   getGgscholar(link: string) {
     return this.http.get(
