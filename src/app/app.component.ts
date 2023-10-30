@@ -7,7 +7,6 @@ import { AuthService } from './services/auth.service';
 import { environment } from '../environments/environment';
 import { extractProfileORCIDData } from './profile/profile-orcid.utility';
 import { extractProfileCrossrefData } from './profile/profile-crossref.utility';
-import { extractProfileIEEEData } from './profile/profile-ieee.utility';
 import { GgSholarService } from './services/ggSholarService';
 
 @Component({
@@ -225,16 +224,45 @@ export class AppComponent {
             if (res) {
               this.isLoading = false
               alert('Build CV successfully');
-              this.profileUser = res.body
-              const profileData = extractProfileIEEEData(this.profileUser)
-              this.fullName = this.profileUser.name
-              this.profilePicUrl = profileData.img
-              // this.works = [profileData.work]
-              this.skills = profileData.affiliation
-              this.experiences = profileData.bio
-            }
-            console.log(this.fullName, this.skills, this.experiences)
+              this.profileUser = res
+              this.fullName = this.profileUser[0].name
+              this.profilePicUrl = this.profileUser[0].img;
+              this.works = ['Author'];
+              let affiSplit = this.profileUser[0].affiliation.split('\n');
+              this.skills = affiSplit;
+              this.experiences = this.profileUser[0].bio.split('\n');
+              const myElement = document.getElementById("naruto");
+              if (myElement) {
+                myElement.innerHTML = `
+              <style>
+              .right-item{
+                  color: black;
+                  font-size: 40px;
+                  text-align: left;
+                  margin: 8px 0;
+              }
 
+              .content{
+                color: black;
+                text-align: left;
+                margin: 3px 0;
+              }
+              </style>
+
+              <div class="right-item">Work</div>
+                <p class="content">${this.works}</p>
+              <hr>
+              <div class="right-item">Affiliation</div>
+                <p class="content">${this.skills}</p>
+              <hr>
+              <div class="right-item">Biography</div>
+                <p class="content">${this.experiences}</p>
+              <hr>
+              `;
+              } else {
+                console.log("Không tìm thấy phần tử với ID 'myElement'");
+              }
+            }
           })
       }
 

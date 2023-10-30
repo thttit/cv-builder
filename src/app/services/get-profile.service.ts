@@ -45,10 +45,12 @@ export class GetProfileService {
   }
 
 
-  getProfileIEEE(linkProfileIEEE: string) {
-    // const proxyUrl = "https://cors-anywhere.herokuapp.com/";
-
-    return this.http.get<any>(`https://api-json-server-84l9.onrender.com/${linkProfileIEEE}`);
+  getProfileIEEE(linkProfileIEEE: string): Observable<any> {
+    const url = `https://api-json-server-84l9.onrender.com/${linkProfileIEEE}`;
+    const headers = {
+      Accept: 'application/json',
+    };
+    return this.http.get<any>(url, { headers });
   }
 
   // getProfileLinkedIn1(linkProfileLinkedIn: string){
