@@ -7,7 +7,7 @@ import { AuthService } from './services/auth.service';
 import { environment } from '../environments/environment';
 import { extractProfileORCIDData } from './profile/profile-orcid.utility';
 import { extractProfileCrossrefData } from './profile/profile-crossref.utility';
-import { map } from 'rxjs';
+import { extractProfileIEEEData } from './profile/profile-ieee.utility';
 import { GgSholarService } from './services/ggSholarService';
 
 @Component({
@@ -140,15 +140,13 @@ export class AppComponent {
         )
       }
 
-      // Crossref Link test: 
+      // Crossref Link test:
       // https://doi.org/10.11646/zootaxa.5164.1.1
       // https://doi.org/10.54957/jolas.v2i2.182
       // https://doi.org/10.33545/26175754.2021.v4.i2a.110
       // https://doi.org/10.1364/JOSAB.1.000354
 
       else if (this.pageGetProfile == 'crossref') {
-
-
         this.isLoading = true;
         var splitted = this.linkProfile.split('/');
         var DOIcrossref = splitted[splitted.length - 2] + "/" + splitted[splitted.length - 1];
@@ -170,11 +168,11 @@ export class AppComponent {
               this.works = profileData.works;
               this.title = profileData.title;
               this.abstract = profileData.abstract;
-              
+
               // Thay đổi giao diện cho phù hợp
               const myElement = document.getElementById("naruto");
               if (myElement) {
-              myElement.innerHTML = `
+                myElement.innerHTML = `
               <style>
               .right-item{
                   color: black;
@@ -182,7 +180,7 @@ export class AppComponent {
                   text-align: left;
                   margin: 8px 0;
               }
-              
+
               .content{
                 color: black;
                 text-align: left;
@@ -201,12 +199,12 @@ export class AppComponent {
                 <p class="content">${this.abstract}</p>
               <hr>
               `;
-                  // Lấy nội dung HTML từ phần tử
-                  const content = myElement.innerHTML;
-                  
-                  console.log(content);
+                // Lấy nội dung HTML từ phần tử
+                const content = myElement.innerHTML;
+
+                console.log(content);
               } else {
-                  console.log("Không tìm thấy phần tử với ID 'myElement'");
+                console.log("Không tìm thấy phần tử với ID 'myElement'");
               }
             }
           },
@@ -215,6 +213,29 @@ export class AppComponent {
             alert('Error when getting data');
           }
         )
+      } else if (this.pageGetProfile === 'ieee') {
+        // Link Test
+        // https://ieeexplore.ieee.org/author/37265576200
+        // https://ieeexplore.ieee.org/author/37280142900
+        // https://ieeexplore.ieee.org/author/37271997300
+        this.isLoading = true
+        const authorId = this.linkProfile.split("/").pop();
+        this.getPfSv.getProfileIEEE(await authorId).subscribe(
+          async (res) => {
+            if (res) {
+              this.isLoading = false
+              alert('Build CV successfully');
+              this.profileUser = res.body
+              const profileData = extractProfileIEEEData(this.profileUser)
+              this.fullName = this.profileUser.name
+              this.profilePicUrl = profileData.img
+              // this.works = [profileData.work]
+              this.skills = profileData.affiliation
+              this.experiences = profileData.bio
+            }
+            console.log(this.fullName, this.skills, this.experiences)
+
+          })
       }
 
       // else {

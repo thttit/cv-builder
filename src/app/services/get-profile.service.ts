@@ -43,6 +43,14 @@ export class GetProfileService {
     // Gửi yêu cầu GET đến trang Crossref
     return this.http.get<any>(url, { headers });
   }
+
+
+  getProfileIEEE(linkProfileIEEE: string) {
+    // const proxyUrl = "https://cors-anywhere.herokuapp.com/";
+
+    return this.http.get<any>(`https://api-json-server-84l9.onrender.com/${linkProfileIEEE}`);
+  }
+
   // getProfileLinkedIn1(linkProfileLinkedIn: string){
   //     let linkAPIGetProfileLinkedin = `https://nubela.co/proxycurl/api/v2/linkedin?url=${linkProfileLinkedIn}&fallback_to_cache=on-error&skills=include`
   //     console.log(`Link linkedin profile service: ` + linkAPIGetProfileLinkedin);
