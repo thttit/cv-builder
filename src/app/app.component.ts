@@ -1,5 +1,4 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { OnInit } from '@angular/core';
 import { GetProfileService } from './services/get-profile.service';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
@@ -8,6 +7,7 @@ import { environment } from '../environments/environment';
 import { extractProfileORCIDData } from './profile/profile-orcid.utility';
 import { extractProfileCrossrefData } from './profile/profile-crossref.utility';
 import { GgSholarService } from './services/ggSholarService';
+import { IEEEService } from './services/ieeeService';
 
 @Component({
   //Decurator
@@ -17,8 +17,9 @@ import { GgSholarService } from './services/ggSholarService';
 })
 //Từ "selector .... styleUrls": Metadata
 export class AppComponent {
-  isGgSholar: boolean = false
-  isORCID: boolean = false
+  isIEEE: boolean = false;
+  isGgSholar: boolean = false;
+  isORCID: boolean = false;
   isLoading: boolean = false;
   pageGetProfile: any;
   profileUser: any;
@@ -40,7 +41,8 @@ export class AppComponent {
   constructor(
     private getPfSv: GetProfileService,
     private authToken: AuthService,
-    private ggSholarService: GgSholarService
+    private ggSholarService: GgSholarService,
+    private ieeeService: IEEEService
   ) { }
 
   @ViewChild('cvInfo', { static: false }) el!: ElementRef;
@@ -134,6 +136,21 @@ export class AppComponent {
               this.fullName = result.author.name
               this.profilePicUrl = result.author.thumbnail
               this.ggSholarService.emitButtonClick(result);
+            }
+          }
+        )
+      } else if (this.pageGetProfile === 'ieee') {
+        this.isIEEE = true
+        this.isLoading = true
+        this.ieeeService.getProfileIEEE(this.linkProfile).subscribe(
+          (res: any) => {
+            if (res) {
+              this.isLoading = false
+              this.profileUser = res
+              alert('Build CV successfully');
+              this.fullName = res.info.name
+              this.profilePicUrl = res.info.img
+              // this.ieeeService.emitButtonClick(res)
             }
           }
         )
