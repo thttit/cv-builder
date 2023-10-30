@@ -147,8 +147,6 @@ export class AppComponent {
       // https://doi.org/10.1364/JOSAB.1.000354
 
       else if (this.pageGetProfile == 'crossref') {
-
-
         this.isLoading = true;
         var splitted = this.linkProfile.split('/');
         var DOIcrossref = splitted[splitted.length - 2] + "/" + splitted[splitted.length - 1];
@@ -215,8 +213,59 @@ export class AppComponent {
             alert('Error when getting data');
           }
         )
-      }
+      } else if (this.pageGetProfile === 'ieee') {
+        // Link Test
+        // https://ieeexplore.ieee.org/author/37265576200
+        // https://ieeexplore.ieee.org/author/37280142900
+        // https://ieeexplore.ieee.org/author/37271997300
+        this.isLoading = true
+        const authorId = this.linkProfile.split("/").pop();
+        this.getPfSv.getProfileIEEE(await authorId).subscribe(
+          async (res) => {
+            if (res) {
+              this.isLoading = false
+              alert('Build CV successfully');
+              this.profileUser = res
+              this.fullName = this.profileUser[0].name
+              this.profilePicUrl = this.profileUser[0].img;
+              this.works = ['Author'];
+              let affiSplit = this.profileUser[0].affiliation.split('\n');
+              this.skills = affiSplit;
+              this.experiences = this.profileUser[0].bio.split('\n');
+              const myElement = document.getElementById("naruto");
+              if (myElement) {
+                myElement.innerHTML = `
+              <style>
+              .right-item{
+                  color: black;
+                  font-size: 40px;
+                  text-align: left;
+                  margin: 8px 0;
+              }
 
+              .content{
+                color: black;
+                text-align: left;
+                margin: 3px 0;
+              }
+              </style>
+
+              <div class="right-item">Work</div>
+                <p class="content">${this.works}</p>
+              <hr>
+              <div class="right-item">Affiliation</div>
+                <p class="content">${this.skills}</p>
+              <hr>
+              <div class="right-item">Biography</div>
+                <p class="content">${this.experiences}</p>
+              <hr>
+              `;
+              } else {
+                console.log("Không tìm thấy phần tử với ID 'myElement'");
+              }
+            }
+          })
+      }
       // else {
       //     //Viết code ở đây
       // }
