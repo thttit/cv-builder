@@ -7,7 +7,6 @@ import { environment } from '../environments/environment';
 import { extractProfileORCIDData } from './profile/profile-orcid.utility';
 import { extractProfileCrossrefData } from './profile/profile-crossref.utility';
 import { GgSholarService } from './services/ggSholarService';
-import { IEEEService } from './services/ieeeService';
 
 @Component({
   //Decurator
@@ -42,7 +41,6 @@ export class AppComponent {
     private getPfSv: GetProfileService,
     private authToken: AuthService,
     private ggSholarService: GgSholarService,
-    private ieeeService: IEEEService
   ) { }
 
   @ViewChild('cvInfo', { static: false }) el!: ElementRef;
@@ -139,23 +137,7 @@ export class AppComponent {
             }
           }
         )
-      } else if (this.pageGetProfile === 'ieee') {
-        this.isIEEE = true
-        this.isLoading = true
-        this.ieeeService.getProfileIEEE(this.linkProfile).subscribe(
-          (res: any) => {
-            if (res) {
-              this.isLoading = false
-              this.profileUser = res
-              alert('Build CV successfully');
-              this.fullName = res.info.name
-              this.profilePicUrl = res.info.img
-              // this.ieeeService.emitButtonClick(res)
-            }
-          }
-        )
       }
-
       // Crossref Link test:
       // https://doi.org/10.11646/zootaxa.5164.1.1
       // https://doi.org/10.54957/jolas.v2i2.182
